@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Class editor
  *
@@ -36,6 +34,8 @@ class codemirror_texteditor extends texteditor {
     public const FORMAT_CSS = 90;
     /** @var int FORMAT_JS Format constant for JavaScript */
     public const FORMAT_JS = 91;
+    /** @var int FORMAT_HTML Format constant for HTML */
+    public const FORMAT_HTML = 92;
 
     /**
      * This plugin only supports the FORMAT_CODE format.
@@ -45,6 +45,7 @@ class codemirror_texteditor extends texteditor {
         return [
             self::FORMAT_CSS => self::FORMAT_CSS,
             self::FORMAT_JS => self::FORMAT_JS,
+            self::FORMAT_HTML => self::FORMAT_HTML,
             FORMAT_HTML => FORMAT_HTML,
         ];
     }
@@ -53,7 +54,7 @@ class codemirror_texteditor extends texteditor {
      * This editor prefers the FORMAT_CSS format.
      * @return int
      */
-    public function get_preferred_format(){
+    public function get_preferred_format() {
         return FORMAT_HTML;
     }
 
@@ -70,12 +71,15 @@ class codemirror_texteditor extends texteditor {
      * This editor supports repositories.
      * @return bool
      */
-    public function supports_repositories(){
+    public function supports_repositories() {
         return true;
     }
 
     /**
-     * 
+     * Load JS for the editor.
+     * @param string $elementid The ID of the element to attach the editor to.
+     * @param array|null $options Options for the editor.
+     * @param mixed $fpoptions Options for the filepicker.
      */
     public function use_editor($elementid, ?array $options = null, $fpoptions = null) {
         global $PAGE;
