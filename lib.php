@@ -43,10 +43,10 @@ class codemirror_texteditor extends texteditor {
      */
     public function get_supported_formats() {
         return [
+            FORMAT_HTML => FORMAT_HTML,
             self::FORMAT_CSS => self::FORMAT_CSS,
             self::FORMAT_JS => self::FORMAT_JS,
             self::FORMAT_HTML => self::FORMAT_HTML,
-            FORMAT_HTML => FORMAT_HTML,
         ];
     }
 
