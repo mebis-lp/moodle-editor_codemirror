@@ -28626,10 +28626,15 @@ class CodeProEditor {
         this._parentElement = textarea.parentElement;
         this.themeConfig = new Compartment();
         this.linewrapConfig = new Compartment();
+        let updateListenerExtension = EditorView.updateListener.of((update) => {
+            textarea.value = update.state.doc.toString();
+        });
+
         let extensions = [
             basicSetup,
             this.linewrapConfig.of([EditorView.lineWrapping]),
-            this.themeConfig.of([themes['light']])
+            this.themeConfig.of([themes['light']]),
+            updateListenerExtension,
         ];
         let name = textarea.name.split('[', 1)[0];
         let formatElement = textarea.form.querySelector('[name="' + name + '[format]"]');
@@ -28648,16 +28653,11 @@ class CodeProEditor {
         this._editorView = new EditorView({
             extensions: extensions,
             parent: this._parentElement,
-            doc: textarea.value
+            doc: textarea.value,
         });
         textarea.parentNode.insertBefore(this._editorView.dom, textarea)
         textarea.style.display = "none";
         textarea.parentNode.nextElementSibling.style.display = "none";
-        if (textarea.form) {
-            textarea.form.addEventListener("core_form/submittedByJavascript", (e) => {
-                textarea.value = this._editorView.state.doc.toString();
-            });
-        }
     }
     /**
      * Sets the html source code
